@@ -43,15 +43,14 @@ func (goLibBuilder *goLibBuilder) GetMethodParameter() *string {
 	return &goLibBuilder.methodParameter
 }
 
-func (goLibBuilder *goLibBuilder) BuildGoLibJavaClass() *string {
+func (goLibBuilder *goLibBuilder) Build() *string {
 
-	var classTemplate = `
-	package com.jgo.framework.gorunner.golib;
+	var classTemplate = `package com.jgo.framework.gorunner.golib;` + "\n" +
 
-	import com.sun.jna.Library;
+		`import com.sun.jna.Library;` + "\n" +
 
-	public interface ` + goLibBuilder.className + `extends Library {` +
-		goLibBuilder.methodReturnType + ` ` + goLibBuilder.methodName + ` (` + goLibBuilder.methodParameter + `);` +
+		`public interface ` + goLibBuilder.className + ` extends Library { ` + "\n" +
+		"\t" + "void " + goLibBuilder.methodName + `(` + goLibBuilder.methodParameter + `);` + "\n" +
 		`}`
 
 	return &classTemplate

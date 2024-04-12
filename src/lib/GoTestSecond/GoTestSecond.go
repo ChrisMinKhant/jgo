@@ -7,7 +7,7 @@ func main() {
 
 }
 
-//export GoTestSecond
-func GoTestSecond() {
+//export TestSecond
+func TestSecond() {
 	fmt.Println("Hello this is go test second.")
 }

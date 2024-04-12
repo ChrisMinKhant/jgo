@@ -74,7 +74,7 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-extern void Test(GoInt firstValue, GoInt secondValue);
+extern void Test(GoInt gibberish, GoInt secondValue, GoInt haha);
 
 #ifdef __cplusplus
 }
