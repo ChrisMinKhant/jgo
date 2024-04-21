@@ -50,7 +50,7 @@ func (jgoWatcher *JgoWatcher) Watch() {
 }
 
 func (jgoWatcher *JgoWatcher) respond() {
-	readFileMessage, readFileByte := readFile()
+	readFileMessage, readFileByte := readFile(JGO_FILE)
 	if *readFileMessage != "" {
 		jgoWatcher.dispatcher = NewJgoDispatcher(readFileMessage, readFileByte)
 		jgoWatcher.dispatcher.dispatch()
@@ -58,8 +58,8 @@ func (jgoWatcher *JgoWatcher) respond() {
 
 }
 
-func readFile() (*string, *[]byte) {
-	readValue, _ := os.ReadFile(JGO_FILE)
+func readFile(path string) (*string, *[]byte) {
+	readValue, _ := os.ReadFile(path)
 	fetchedMessage := string(readValue)
 	return &fetchedMessage, &readValue
 }

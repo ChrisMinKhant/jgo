@@ -67,11 +67,13 @@ public class JgoCommuteImplementation implements JgoCommute {
 
             returnedValue = encryptMessage(preparedMessage);
 
-            encryptedMessage = returnedValue[1];
+            encryptedMessage = returnedValue[2];
 
-            FileWriter fileWriter = new FileWriter(this.jgoSecretPath,true);
+            FileWriter fileWriter = new FileWriter(this.jgoSecretPath, false);
 
             fileWriter.write(returnedValue[0]);
+            fileWriter.write("\n");
+            fileWriter.write(returnedValue[1]);
 
             fileWriter.close();
 
@@ -93,7 +95,7 @@ public class JgoCommuteImplementation implements JgoCommute {
         } catch (BadPaddingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return encryptedMessage + "|";
@@ -104,7 +106,7 @@ public class JgoCommuteImplementation implements JgoCommute {
     }
 
     @Override
-    public String[] encryptMessage(String message) throws NoSuchAlgorithmException, NoSuchPaddingException,
+    public byte[] encryptMessage(String message) throws NoSuchAlgorithmException, NoSuchPaddingException,
             InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 
         final SecureRandom secure = new SecureRandom();
@@ -129,10 +131,16 @@ public class JgoCommuteImplementation implements JgoCommute {
         System.arraycopy(iv, 0, combinnedCipterText, 0, iv.length);
         System.arraycopy(cipherText, 0, combinnedCipterText, iv.length, cipherText.length);
 
-        String[] encryptedMessageWithSecret = new String[2];
+        byte[] encryptedMessageWithSecret = new String[3];
 
-        encryptedMessageWithSecret[0] = new String(secretKey.getEncoded());
-        encryptedMessageWithSecret[1] = new String(combinnedCipterText);
+        encryptedMessageWithSecret[0] = new String(key);
+        encryptedMessageWithSecret[1] = iv;
+        encryptedMessageWithSecret[2] = new String(combinnedCipterText);
+
+        System.out.println("Fetched secret ::: " + encryptedMessageWithSecret[0].getBytes());
+        System.out.println("Fetched iv ::: " + encryptedMessageWithSecret[1].getBytes());
+        System.out.println("Fetched plain secret ::: " + key);
+        System.out.println("Fetched plain iv ::: " + iv);
 
         return encryptedMessageWithSecret;
     }

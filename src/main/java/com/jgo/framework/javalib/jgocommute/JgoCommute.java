@@ -10,5 +10,7 @@ import javax.crypto.NoSuchPaddingException;
 
 public interface JgoCommute {
     void push();
-    String[] encryptMessage(String message) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException;
-} 
+
+    byte[] encryptMessage(String message) throws NoSuchAlgorithmException, NoSuchPaddingException,
+            InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException;
+}

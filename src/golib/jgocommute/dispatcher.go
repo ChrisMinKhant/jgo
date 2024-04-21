@@ -1,9 +1,12 @@
 package main
 
 import (
+	"crypto/aes"
+	"crypto/cipher"
 	"encoding/base64"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"strings"
 )
@@ -21,6 +24,22 @@ func NewJgoDispatcher(readFileMessage *string, readFileByte *[]byte) *JgoDispatc
 }
 
 func (jgoDistpatcher *JgoDispatcher) dispatch() {
+	readFileMessage, _ := readFile("/mnt/edisk/jgo/.secret")
+
+	secretAndIv := strings.Split(*readFileMessage, "\n")
+
+	log.Printf("Fetched secret and iv ::: %v\n", secretAndIv[0])
+
+	aes, error := aes.NewCipher([]byte(secretAndIv[0]))
+
+	if error != nil {
+		log.Printf("Fetched found error at cipher ::: %v\n", error)
+	}
+	log.Printf("Fetched AES ::: %v\n", aes)
+
+	gcm, _ := cipher.NewGCM(aes)
+
+	log.Printf("Fetched nonce size ::: %v\n", gcm.NonceSize())
 
 	pushMessage := decodeMessage(jgoDistpatcher.readFileMessage)
 
